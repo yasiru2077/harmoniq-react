@@ -1,34 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
-import {Amplify} from 'aws-amplify'
+import React, { useState, useEffect } from 'react';
+import { Amplify } from 'aws-amplify';
 import { Authenticator, withAuthenticator } from '@aws-amplify/ui-react';
-import Quiz from './Quiz';
 import '@aws-amplify/ui-react/styles.css';
 import awsExports from './aws-exports';
+import Home from './pages/home/home';
+import Logout from './components/logout/logout';
+import { Loader } from 'lucide-react';
+import MainNavigator from './pages/navigator/main-navigator';
+
 Amplify.configure(awsExports);
 
 function App() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate authentication check
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000); // Adjust this time as needed
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-gray-100">
+        <div className="text-center">
+          <Loader className="w-16 h-16 mx-auto text-blue-500 animate-spin" />
+          <p className="mt-4 text-xl font-semibold text-gray-700">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="App">
-       <Authenticator>
+      <Authenticator>
         {({ signOut }) => (
           <main>
             <header className='App-header'>
-              {/* Quiz Component */}
-              <Quiz/>
-              {/* Sign Out Button */}
-
-              <button 
-                onClick={signOut} 
-                style={{ 
-                  margin: '20px', 
-                  fontSize: '0.8rem', 
-                  padding: '5px 10px', 
-                  marginTop: '20px'
-                }}
-              >
-                Sign Out
-              </button>
+             <MainNavigator signOut={signOut}/>
+              <Home />
             </header>
           </main>
         )}

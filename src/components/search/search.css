@@ -1,0 +1,33 @@
+.search-bar {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 50px 0;
+}
+
+.search-bar > input {
+  width: 100%;
+  /* margin-right: 20px; */
+  background-color: #E8EEF3;
+  padding: 3px 10px;
+  border-radius: 10px 0 0 10px;
+  border: 2px solid #333;
+}
+
+.search-bar > button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  min-width: 34px;
+  min-height:34px;
+  border-radius: 0 10px 10px 0;
+  border: 0; 
+  background-color: #333;
+}
+
+.search-bar > button > svg{
+    stroke: white;
+}

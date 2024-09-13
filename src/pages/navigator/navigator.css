@@ -1,0 +1,24 @@
+.main-Navigator {
+  display: flex;
+  justify-content: space-between;
+  margin: 50px 400px;
+  position: relative;
+}
+
+@media (max-width: 1000px) {
+  .main-Navigator {
+    margin: 50px 100px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-Navigator {
+    margin: 50px 50px;
+  }
+}
+
+@media (max-width:540px) {
+  .main-Navigator {
+    margin: 50px 20px;
+  }
+}
