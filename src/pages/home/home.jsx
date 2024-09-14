@@ -6,8 +6,7 @@ import { Authenticator } from "@aws-amplify/ui-react";
 import "./home.css";
 import MainNavigator from "../navigator/main-navigator";
 import Search from "../../components/search/search";
-import classic from "../../assets/images/Image Container.png";
-
+import Genre from "../../components/cards/genre";
 
 // Amplify.configure({
 //   Auth: {
@@ -41,26 +40,13 @@ function Home() {
           Hi, <strong>Yasiru</strong>
         </h1>
       </div>
-      <Search/>
+      <Search />
       <div className="categories">
         <h2>Genre</h2>
         {/* <p className="text-3xl font-bold underline">aduiahidhaihdi</p> */}
-      
 
-<div class="max-w-72 bg-white border border-gray-200 rounded-lg shadow ">
-    <a href="#">
-        <img class="rounded-t-lg w-full" src={classic} alt="" />
-    </a>
-    <div class="p-5">
-        <a href="#">
-            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">Noteworthy technology acquisitions 2021</h5>
-        </a>
-      
-    </div>
-</div>
-
+        <Genre />
       </div>
-     
     </section>
   );
 }

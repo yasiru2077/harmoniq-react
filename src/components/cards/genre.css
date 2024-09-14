@@ -1,0 +1,3 @@
+.Genre > div> div > h5::first-letter {
+    text-transform: uppercase;
+}
