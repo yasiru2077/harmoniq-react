@@ -5,9 +5,14 @@
   position: relative;
 }
 
-.navigator-admin{
+.admin-navigation {
   display: flex;
-  gap: 20px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.admin-navigation > a {
+  padding: 0;
 }
 
 @media (max-width: 1700px) {
@@ -17,7 +22,7 @@
 }
 
 @media (max-width: 1400px) {
-  .main-Navigator{
+  .main-Navigator {
     margin: 50px 100px;
   }
 }
@@ -34,7 +39,7 @@
   }
 }
 
-@media (max-width:540px) {
+@media (max-width: 540px) {
   .main-Navigator {
     margin: 50px 20px;
   }
