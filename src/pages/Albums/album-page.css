@@ -1,0 +1,28 @@
+.album-page{
+margin: var(--margin-zero) var(--main-margin);
+}
+
+
+@media (max-width: 1700px) {
+    .album-pager{
+        margin: var(--margin-zero) var(--secondary-margin);
+    }
+}
+
+@media (max-width: 1400px) {
+   .album-page{
+        margin: var(--margin-zero) var(--third-margin);
+    }
+}
+
+@media (max-width: 768px) {
+   .album-page{
+        margin: var(--margin-zero) var(--fourth-margin);
+    }
+}
+
+@media (max-width: 540px) {
+   .album-page{
+        margin: var(--margin-zero) var(--fifth-margin);
+    }
+}

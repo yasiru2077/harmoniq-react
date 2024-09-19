@@ -1,0 +1,28 @@
+.music-player{
+margin:  var(--margin-zero) var(--main-margin);
+background-color: aliceblue;
+}
+
+@media (max-width: 1700px) {
+    .music-player{
+        margin: var(--margin-zero) var(--secondary-margin);
+    }
+}
+
+@media (max-width: 1400px) {
+    .music-player{
+        margin: var(--margin-zero) var(--third-margin);
+    }
+}
+
+@media (max-width: 768px) {
+    .music-player{
+        margin: var(--margin-zero) var(--fourth-margin);
+    }
+}
+
+@media (max-width: 540px) {
+    .music-player{
+        margin: var(--margin-zero) var(--fifth-margin);
+    }
+}

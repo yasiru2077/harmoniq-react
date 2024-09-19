@@ -7,6 +7,8 @@ import "./home.css";
 import MainNavigator from "../navigator/main-navigator";
 import Search from "../../components/search/search";
 import Genre from "../../components/cards/genre";
+import Albums from "../../components/albums/albums";
+import { Link } from "react-router-dom";
 
 // Amplify.configure({
 //   Auth: {
@@ -44,8 +46,15 @@ function Home() {
       <div className="categories">
         <h2>Genre</h2>
         {/* <p className="text-3xl font-bold underline">aduiahidhaihdi</p> */}
-
         <Genre />
+      </div>
+      <div className="albums">
+      <h2>Albums</h2>
+      <Albums/>
+      </div>
+      <div className="Recommendations">
+      <h2>Recommendations</h2>
+      <Link to="/musicplayer">go to music</Link>
       </div>
     </section>
   );

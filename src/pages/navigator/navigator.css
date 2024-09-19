@@ -5,11 +5,28 @@
   position: relative;
 }
 
-@media (max-width: 1000px) {
+.navigator-admin{
+  display: flex;
+  gap: 20px;
+}
+
+@media (max-width: 1700px) {
   .main-Navigator {
+    margin: 50px 200px;
+  }
+}
+
+@media (max-width: 1400px) {
+  .main-Navigator{
     margin: 50px 100px;
   }
 }
+
+/* @media (max-width: 1000px) {
+  .main-Navigator {
+    margin: 50px 100px;
+  }
+} */
 
 @media (max-width: 768px) {
   .main-Navigator {

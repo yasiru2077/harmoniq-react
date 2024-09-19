@@ -1,0 +1,34 @@
+.album-cover-img{
+    width: 350px;
+    height: 250px;
+    object-fit: cover;
+}
+
+@media (max-width: 1700px) {
+    .album-cover-img{
+        width: 400px;
+        height: 250px;
+    }
+}
+
+@media (max-width: 940px) {
+    .album-cover-img{
+        width: 320px;
+        height: 200px;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .album-cover-img{
+        width: 100%;
+        height: 250px;
+    }
+}
+
+@media (max-width: 600px) {
+    .album-cover-img{
+        width: 100%;
+        height: 250px;
+    }
+}

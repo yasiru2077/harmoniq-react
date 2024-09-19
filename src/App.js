@@ -1,12 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { Amplify } from 'aws-amplify';
-import { Authenticator, withAuthenticator } from '@aws-amplify/ui-react';
-import '@aws-amplify/ui-react/styles.css';
-import awsExports from './aws-exports';
-import Home from './pages/home/home';
-import Logout from './components/logout/logout';
-import { Loader } from 'lucide-react';
-import MainNavigator from './pages/navigator/main-navigator';
+import React, { useState, useEffect } from "react";
+import { Amplify } from "aws-amplify";
+import { Authenticator, withAuthenticator } from "@aws-amplify/ui-react";
+import "@aws-amplify/ui-react/styles.css";
+import awsExports from "./aws-exports";
+import Home from "./pages/home/home";
+import Logout from "./components/logout/logout";
+import { Loader } from "lucide-react";
+import MainNavigator from "./pages/navigator/main-navigator";
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
+} from "react-router-dom";
+import AuthenticatorPage from "./pages/Authenticator/authenticator";
+import MusicPlayer from "./pages/music-player/music-player";
+import router from "./router-provider";
+import "../src/globel.css";
 
 Amplify.configure(awsExports);
 
@@ -35,16 +45,7 @@ function App() {
 
   return (
     <div className="App">
-      <Authenticator>
-        {({ signOut }) => (
-          <main>
-            <header className='App-header'>
-             <MainNavigator signOut={signOut}/>
-              <Home />
-            </header>
-          </main>
-        )}
-      </Authenticator>
+      <RouterProvider router={router} />
     </div>
   );
 }

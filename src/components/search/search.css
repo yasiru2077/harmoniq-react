@@ -12,7 +12,7 @@
   background-color: #E8EEF3;
   padding: 3px 10px;
   border-radius: 10px 0 0 10px;
-  border: 2px solid #333;
+  border: 2px solid #BBA5FF;
 }
 
 .search-bar > button {
@@ -25,7 +25,7 @@
   min-height:34px;
   border-radius: 0 10px 10px 0;
   border: 0; 
-  background-color: #333;
+  background-color: #BBA5FF;
 }
 
 .search-bar > button > svg{

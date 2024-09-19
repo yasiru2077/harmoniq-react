@@ -4,6 +4,7 @@
 
 .welcome {
   display: flex;
+
 }
 
 .welcome > h1 {
@@ -12,13 +13,36 @@
   margin: 0;
 }
 
-.categories > h2{
-font-weight:700;
-font-size: 20px;
-margin-bottom: 20px;
+
+.categories > h2 {
+  font-weight: 700;
+  font-size: 20px;
+  margin-bottom: 20px;
 }
 
-@media (max-width: 1000px) {
+.albums{
+  margin: 20px 0;
+}
+
+.albums > h2 {
+  font-weight: 700;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.Recommendations{
+  margin: 20px 0;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+@media (max-width: 1700px) {
+  .home-page {
+    margin: 50px 200px;
+  }
+}
+
+@media (max-width: 1400px) {
   .home-page {
     margin: 50px 100px;
   }
