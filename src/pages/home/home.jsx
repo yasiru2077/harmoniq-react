@@ -52,10 +52,10 @@ function Home() {
       <h2>Albums</h2>
       <Albums/>
       </div>
-      <div className="Recommendations">
+      {/* <div className="Recommendations">
       <h2>Recommendations</h2>
       <Link to="/musicplayer">go to music</Link>
-      </div>
+      </div> */}
     </section>
   );
 }

@@ -1,6 +1,7 @@
 import {
   createBrowserRouter,
   createRoutesFromElements,
+  Navigate,
   Outlet,
   Route,
 } from "react-router-dom";
@@ -14,24 +15,28 @@ import Analytics from "./pages/analytics/analytics";
 // import { Authenticator, withAuthenticator } from '@aws-amplify/ui-react';
 // import { Amplify } from 'aws-amplify';
 import { useSelector } from "react-redux";
+import AddAlbum from "./pages/add-album/add-album";
 
 const AdminRoleWrapper = ({ children }) => {
   const isAdmin = useSelector((state) => state.admin.isAdmin);
   return isAdmin ? <AdminHome /> : <Home />;
 };
 
+const AdminProtectedRoute = ({ children }) => {
+  const isAdmin = useSelector((state)=>state.admin.isAdmin);
+  return isAdmin ? <Outlet /> : <Navigate to="/" replace />;
+};
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<AuthenticatorPage />}>
-      {/* {isAdmin ? (
-        <Route index element={<AdminHome />} />
-      ) : (
-        <Route index element={<Home />} />
-      )} */}
-      <Route index element={<AdminRoleWrapper />} />
-      <Route path="/Albums" element={<AlbumPage />}></Route>
-      <Route path="/Analytics" element={<Analytics />}></Route>
+      <Route index element={<AdminRoleWrapper />} />      
       <Route path="/musicplayer" element={<MusicPlayer />}></Route>
+      <Route element={<AdminProtectedRoute />}>
+      <Route path="/Analytics" element={<Analytics />}></Route>
+      <Route path="/Albums" element={<AlbumPage />}></Route>
+      <Route path="/addAlbum" element={<AddAlbum />}></Route>
+      </Route>
     </Route>
   )
 );

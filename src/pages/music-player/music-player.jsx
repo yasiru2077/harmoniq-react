@@ -1,124 +1,145 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Play, Pause, SkipBack, SkipForward, Volume2, VolumeX } from "lucide-react";
-import c from "../../assets/albums/hybrid-theory/Crawling(M4A_128K).m4a";
-import "./music-player.css"
+import React, { useState, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
+import { Play, Pause, SkipBack, SkipForward, Volume2, VolumeX } from 'lucide-react';
 
-const MusicPlayer = () => {
+const LoadingAnimation = () => (
+  <div className="flex justify-center items-center">
+    <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-purple-300"></div>
+  </div>
+);
+
+export default function MusicPlayer() {
+  const location = useLocation();
+  const { album } = location.state;
+  const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const [volume, setVolume] = useState(1);
   const [isMuted, setIsMuted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const audioRef = useRef(new Audio(album.tracks[currentTrackIndex].trackUrl));
 
-  const audioRef = useRef(null);
+  useEffect(() => {
+    audioRef.current.addEventListener('ended', handleNext);
+    audioRef.current.addEventListener('canplay', handleCanPlay);
+    return () => {
+      audioRef.current.removeEventListener('ended', handleNext);
+      audioRef.current.removeEventListener('canplay', handleCanPlay);
+      audioRef.current.pause();
+    };
+  }, []);
 
-  const togglePlay = () => {
+  useEffect(() => {
+    const playAudio = async () => {
+      try {
+        setIsLoading(true);
+        await audioRef.current.play();
+        setIsPlaying(true);
+      } catch (error) {
+        console.error("Playback failed", error);
+        setIsPlaying(false);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    audioRef.current.src = album.tracks[currentTrackIndex].trackUrl;
+    if (isPlaying) {
+      playAudio();
+    }
+  }, [currentTrackIndex, album.tracks]);
+
+  const handleCanPlay = () => {
+    setIsLoading(false);
+    if (isPlaying) {
+      audioRef.current.play().catch(error => console.error("Playback failed", error));
+    }
+  };
+
+  const togglePlayPause = () => {
     if (isPlaying) {
       audioRef.current.pause();
+      setIsPlaying(false);
     } else {
-      audioRef.current.play();
+      audioRef.current.play().catch(error => console.error("Playback failed", error));
+      setIsPlaying(true);
     }
-    setIsPlaying(!isPlaying);
   };
 
-  const handleTimeUpdate = () => {
-    setCurrentTime(audioRef.current.currentTime);
+  const handleNext = () => {
+    setCurrentTrackIndex((prevIndex) => 
+      prevIndex === album.tracks.length - 1 ? 0 : prevIndex + 1
+    );
   };
 
-  const handleLoadedMetadata = () => {
-    setDuration(audioRef.current.duration);
-  };
-
-  const handleSeek = (e) => {
-    const seekTime = e.target.value;
-    audioRef.current.currentTime = seekTime;
-    setCurrentTime(seekTime);
-  };
-
-  const handleVolumeChange = (e) => {
-    const newVolume = e.target.value;
-    setVolume(newVolume);
-    audioRef.current.volume = newVolume;
-    setIsMuted(newVolume === 0);
+  const handlePrevious = () => {
+    setCurrentTrackIndex((prevIndex) => 
+      prevIndex === 0 ? album.tracks.length - 1 : prevIndex - 1
+    );
   };
 
   const toggleMute = () => {
-    if (isMuted) {
-      audioRef.current.volume = volume;
-      setIsMuted(false);
-    } else {
-      audioRef.current.volume = 0;
-      setIsMuted(true);
-    }
+    audioRef.current.muted = !isMuted;
+    setIsMuted(!isMuted);
   };
 
-  const formatTime = (time) => {
-    const minutes = Math.floor(time / 60);
-    const seconds = Math.floor(time % 60);
-    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  const changeTrack = (index) => {
+    if (index === currentTrackIndex) return;
+    audioRef.current.pause();
+    setCurrentTrackIndex(index);
+    setIsPlaying(true);
   };
 
   return (
-    <div className="music-player flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-purple-900 to-indigo-900 text-white p-8">
-      <div className="w-full max-w-md">
-        <div className="mb-8 text-center">
-          <h1 className="text-4xl font-bold mb-2">Now Playing</h1>
-          <p className="text-xl text-purple-300">Crawling - Linkin Park</p>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-purple-900 to-indigo-900 text-white p-8">
+      <div className="w-full max-w-md bg-white bg-opacity-10 rounded-lg shadow-lg overflow-hidden">
+        <img src={album.albumArtUrl} alt={album.albumName} className="w-full h-64 object-cover" />
+        <div className="p-6">
+          <h2 className="text-2xl font-bold mb-2">{album.albumName}</h2>
+          <h3 className="text-lg text-purple-300 mb-4">{album.artists.join(', ')}</h3>
+          <p className="text-sm text-purple-200 mb-6">{album.tracks[currentTrackIndex].trackName}</p>
+          <div className="flex justify-between items-center mb-6">
+            <button onClick={handlePrevious} className="text-purple-300 hover:text-white transition-colors" disabled={isLoading}>
+              <SkipBack size={24} />
+            </button>
+            <button 
+              onClick={togglePlayPause} 
+              className="bg-purple-600 hover:bg-purple-700 rounded-full p-4 transition-colors w-16 h-16 flex items-center justify-center" 
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <LoadingAnimation />
+              ) : isPlaying ? (
+                <Pause size={24} />
+              ) : (
+                <Play size={24} />
+              )}
+            </button>
+            <button onClick={handleNext} className="text-purple-300 hover:text-white transition-colors" disabled={isLoading}>
+              <SkipForward size={24} />
+            </button>
+          </div>
+          <button onClick={toggleMute} className="text-purple-300 hover:text-white transition-colors" disabled={isLoading}>
+            {isMuted ? <VolumeX size={24} /> : <Volume2 size={24} />}
+          </button>
         </div>
-        
-        <div className="bg-white bg-opacity-10 rounded-xl p-6 backdrop-blur-lg shadow-lg">
-          <audio
-            ref={audioRef}
-            src={c}
-            onTimeUpdate={handleTimeUpdate}
-            onLoadedMetadata={handleLoadedMetadata}
-          />
-          
-          <div className="flex justify-center items-center space-x-6 mb-8">
-            <button onClick={() => audioRef.current.currentTime -= 10} className="hover:text-purple-300 transition-colors">
-              <SkipBack size={32} />
-            </button>
-            <button onClick={togglePlay} className="bg-purple-500 hover:bg-purple-600 rounded-full p-4 transition-colors">
-              {isPlaying ? <Pause size={40} /> : <Play size={40} />}
-            </button>
-            <button onClick={() => audioRef.current.currentTime += 10} className="hover:text-purple-300 transition-colors">
-              <SkipForward size={32} />
-            </button>
-          </div>
-          
-          <div className="mb-4">
-            <input
-              type="range"
-              min={0}
-              max={duration}
-              value={currentTime}
-              onChange={handleSeek}
-              className="w-full h-2 bg-purple-200 rounded-lg appearance-none cursor-pointer"
-            />
-            <div className="flex justify-between text-sm mt-1">
-              <span>{formatTime(currentTime)}</span>
-              <span>{formatTime(duration)}</span>
-            </div>
-          </div>
-          
-          <div className="flex items-center space-x-4">
-            <button onClick={toggleMute} className="hover:text-purple-300 transition-colors">
-              {isMuted ? <VolumeX size={24} /> : <Volume2 size={24} />}
-            </button>
-            <input
-              type="range"
-              min={0}
-              max={1}
-              step={0.01}
-              value={isMuted ? 0 : volume}
-              onChange={handleVolumeChange}
-              className="w-full h-2 bg-purple-200 rounded-lg appearance-none cursor-pointer"
-            />
-          </div>
-        </div>
+      </div>
+      <div className="mt-8 w-full max-w-md">
+        <h4 className="text-lg font-semibold mb-2">Tracklist</h4>
+        <ul className="bg-white bg-opacity-10 rounded-lg overflow-hidden">
+          {album.tracks.map((track, index) => (
+            <li 
+              key={index} 
+              className={`px-4 py-2 cursor-pointer transition-colors ${
+                index === currentTrackIndex 
+                  ? 'bg-purple-600 text-white' 
+                  : 'hover:bg-white hover:bg-opacity-20'
+              }`}
+              onClick={() => changeTrack(index)}
+            >
+              {track.trackName}
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
-};
-
-export default MusicPlayer;
+}

@@ -1,21 +1,22 @@
 import React from "react";
 import "./album.css"
 
-function AlbumCards() {
+function AlbumCards({ album }) {
   return (
     <div>
-      <div class="bg-white rounded-lg">
+      <div  key={album.albumId} class="bg-white rounded-lg">
         <img
           class="rounded-lg album-cover-img"
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpqmzmrmfYnjeSbJlag2f0K9YW4uhwAYFgyg&s"
-          alt=""
+          src={album.albumArtUrl}
+          alt={album.albumName}
         />
         <div 
         class="pt-4"
         >
           <h5 class="mb-2 text-l font-medium tracking-tight text-black">
-            Noteworthy technology acquisitions 2021
+          {album.albumName}
           </h5>
+          <p className="text-sm font-bold text-gray-600">{album.artists}</p>
         </div>
       </div>
     </div>
