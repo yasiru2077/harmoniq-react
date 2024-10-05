@@ -31,3 +31,7 @@
 .search-bar > button > svg{
     stroke: white;
 }
+
+.album-grid > h1{
+  font-size: 20px;
+}

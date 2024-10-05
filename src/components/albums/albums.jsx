@@ -43,7 +43,7 @@ function Albums() {
           0: {
             slidesPerView: 1,
           },
-        }}
+        }}  
       >
         {albums.map((album) => (
           <SwiperSlide key={album.id}>

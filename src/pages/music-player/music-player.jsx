@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Play, Pause, SkipBack, SkipForward, Volume2, VolumeX } from 'lucide-react';
+import './music-player.css';
 
 const LoadingAnimation = () => (
   <div className="flex justify-center items-center">
@@ -89,7 +90,7 @@ export default function MusicPlayer() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-purple-900 to-indigo-900 text-white p-8">
+    <div className="music-player-container rounded-xl flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-purple-900 to-indigo-900 text-white p-8">
       <div className="w-full max-w-md bg-white bg-opacity-10 rounded-lg shadow-lg overflow-hidden">
         <img src={album.albumArtUrl} alt={album.albumName} className="w-full h-64 object-cover" />
         <div className="p-6">

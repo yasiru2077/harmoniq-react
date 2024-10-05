@@ -9,6 +9,7 @@ import Search from "../../components/search/search";
 import Genre from "../../components/cards/genre";
 import Albums from "../../components/albums/albums";
 import { Link } from "react-router-dom";
+import RecommendationPage from "../recomandation-page/recommendation-page";
 
 // Amplify.configure({
 //   Auth: {
@@ -52,6 +53,7 @@ function Home() {
       <h2>Albums</h2>
       <Albums/>
       </div>
+      <RecommendationPage/>
       {/* <div className="Recommendations">
       <h2>Recommendations</h2>
       <Link to="/musicplayer">go to music</Link>

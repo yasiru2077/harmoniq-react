@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./album-page.css";
 import axios from "axios";
 import Search from "../../components/search/search";
-import { PencilIcon, TrashIcon, X, XIcon } from "lucide-react";
+import { Loader, PencilIcon, TrashIcon, X, XIcon } from "lucide-react";
 
 function AlbumPage() {
   const [albums, setAlbums] = useState([]);
@@ -34,6 +34,17 @@ function AlbumPage() {
     albumArt: false,
     tracks: []
   });
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate authentication check
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000); // Adjust this time as needed
+
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     setSelectedFiles({
@@ -259,6 +270,17 @@ function AlbumPage() {
       alert("Failed to update album");
     }
   };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-gray-100">
+        <div className="text-center">
+          <Loader className="w-16 h-16 mx-auto text-blue-500 animate-spin" />
+          <p className="mt-4 text-xl font-semibold text-gray-700">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="album-page">

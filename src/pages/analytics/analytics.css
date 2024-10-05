@@ -1,0 +1,27 @@
+.analytics {
+  margin: 0 400px;
+}
+
+@media (max-4idth: 1700px) {
+  .analytics {
+    margin: 50px 200px;
+  }
+}
+
+@media (max-width: 1400px) {
+  .analytics {
+    margin: 50px 100px;
+  }
+}
+
+@media (max-width: 768px) {
+  .analytics {
+    margin: 50px 50px;
+  }
+}
+
+@media (max-width: 540px) {
+  .analytics {
+    margin: 50px 20px;
+  }
+}
