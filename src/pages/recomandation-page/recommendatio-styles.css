@@ -1,0 +1,16 @@
+.recharts-cartesian-axis-tick-value{
+    font-size: medium !important;
+    
+}
+
+@media (max-width:1000px) {
+    .recharts-cartesian-axis-tick-value{
+        font-size: small !important;
+    }
+}
+
+@media (max-width:500px) {
+    .recharts-cartesian-axis-tick-value{
+        font-size: 10px !important;
+    }
+}

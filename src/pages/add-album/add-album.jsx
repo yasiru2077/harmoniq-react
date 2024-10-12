@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import axios from 'axios';
 import { Upload, X } from 'lucide-react';
 // import { Alert, AlertDescription } from '@/components/ui/alert';
-
+import './add-album.css';
+import AdminNavigation from '../navigator/admin-navigation';
 
 const Alert = ({ children, type = 'info' }) => {
   const colors = {
@@ -129,7 +130,8 @@ function AddAlbum() {
 
   return (
     <div className='admin-home Add-album'>
-       <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+        <AdminNavigation/>
+       <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8 mt-10">
       <div className="mx-auto bg-white rounded-lg shadow-md overflow-hidden">
         <div className="md:flex">
           <div className="p-8 w-full">

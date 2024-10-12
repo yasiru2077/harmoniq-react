@@ -3,6 +3,7 @@ import "./album-page.css";
 import axios from "axios";
 import Search from "../../components/search/search";
 import { Loader, PencilIcon, TrashIcon, X, XIcon } from "lucide-react";
+import AdminNavigation from "../navigator/admin-navigation";
 
 function AlbumPage() {
   const [albums, setAlbums] = useState([]);
@@ -284,8 +285,10 @@ function AlbumPage() {
 
   return (
     <div className="album-page">
+      <AdminNavigation />
       <Search />
-      <div className="container mx-auto px-4 py-8 bg-[#E8EEF3] rounded-[12px]">
+
+      <div className="container mx-auto px-4 py-8 bg-[#E8EEF3] rounded-[12px] mb-10">
         <h2 className="text-3xl font-bold mb-8 text-center text-gray-900">
           Manage Your Albums
         </h2>
@@ -321,32 +324,29 @@ function AlbumPage() {
                 </div>
               </div>
               <div className="p-4">
-                <h3 className="text-xl font-semibold text-gray-100 mb-2">
+                <h3 className="text-xl font-semibold capitalize text-gray-100 mb-2">
                   {album.albumName}
                 </h3>
-                <h5 className="text-xl font-semibold text-gray-100 mb-2">
+                <h5 className="text-[16px] font-medium capitalize text-gray-300 mb-2">
                   {album.genre}
                 </h5>
-                <p className="text-gray-400 text-sm mb-1">
+                <p className="text-gray-400 relative bottom-0 text-sm mb-1">
                   Play Count: {album.playCount || 0}
-                </p>
-                <p className="text-gray-400 text-sm">
-                  Last Played: {album.lastPlayedTrack || "N/A"}
                 </p>
               </div>
             </div>
           ))}
         </div>
         {isEditModalOpen && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-            <div className="bg-gray-800 p-6 rounded-lg w-full max-w-md">
+          <div className="fixed inset-0 bg-[#E8EEF3] bg-opacity-50 flex items-center justify-center">
+            <div className="bg-[#E8EEF3] p-6 rounded-lg w-full max-w-md">
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-xl font-semibold text-gray-100">
+                <h3 className="text-xl font-semibold text-gray-900">
                   Edit Album
                 </h3>
                 <button
                   onClick={() => setIsEditModalOpen(false)}
-                  className="text-gray-400 hover:text-gray-200"
+                  className="text-gray-400 hover:text-gray-900"
                 >
                   <XIcon className="w-6 h-6" />
                 </button>
@@ -355,7 +355,7 @@ function AlbumPage() {
                 <div className="mb-4">
                   <label
                     htmlFor="albumName"
-                    className="block text-gray-300 mb-2"
+                    className="block text-gray-900 mb-2"
                   >
                     Album Name
                   </label>
@@ -365,11 +365,11 @@ function AlbumPage() {
                     name="albumName"
                     value={albumDetails.albumName}
                     onChange={handleInputChange}
-                    className="w-full bg-gray-700 text-white p-2 rounded"
+                    className="w-full bg-gray-300 text-black p-2 rounded"
                   />
                 </div>
                 <div className="mb-4">
-                  <label htmlFor="genre" className="block text-gray-300 mb-2">
+                  <label htmlFor="genre" className="block text-gray-900 mb-2">
                     Genre
                   </label>
                   <input
@@ -378,13 +378,13 @@ function AlbumPage() {
                     name="genre"
                     onChange={handleInputChange}
                     value={albumDetails.genre}
-                    className="w-full bg-gray-700 text-white p-2 rounded"
+                    className="w-full bg-gray-300 text-black p-2 rounded"
                   />
                 </div>
                 <div className="mb-4">
                   <label
                     htmlFor="albumYear"
-                    className="block text-gray-300 mb-2"
+                    className="block text-gray-900 mb-2"
                   >
                     Album year
                   </label>
@@ -394,29 +394,29 @@ function AlbumPage() {
                     name="albumYear"
                     onChange={handleInputChange}
                     value={albumDetails.albumYear}
-                    className="w-full bg-gray-700 text-white p-2 rounded"
+                    className="w-full bg-gray-300 text-black p-2 rounded"
                   />
                 </div>
                 <div className="mb-4">
-                  <label htmlFor="artists" className="block text-gray-300 mb-2">
+                  <label htmlFor="artists" className="block text-gray-900 mb-2">
                     artists
                   </label>
                   <input
                     type="text"
                     name="artists"
-                    className="w-full bg-gray-700 text-white p-2 rounded"
+                    className="w-full bg-gray-300 text-black p-2 rounded"
                     onChange={handleInputChange}
                     value={albumDetails.artists}
                   />
                 </div>
                 <div className="mb-4">
-                  <label htmlFor="artists" className="block text-gray-300 mb-2">
+                  <label htmlFor="artists" className="block text-gray-900 mb-2">
                     Band Composition
                   </label>
                   <input
                     type="text"
                     name="bandComposition"
-                    className="w-full bg-gray-700 text-white p-2 rounded"
+                    className="w-full bg-gray-300 text-black p-2 rounded"
                     onChange={handleInputChange}
                     value={albumDetails.bandComposition}
                   />
@@ -424,7 +424,7 @@ function AlbumPage() {
                 <div className="mb-4">
                   <label
                     htmlFor="albumArt"
-                    className="block text-gray-300 mb-2"
+                    className="block text-gray-900 mb-2"
                   >
                     album image
                   </label>
@@ -449,7 +449,7 @@ function AlbumPage() {
                 <div className="mb-4">
                   <label
                     htmlFor="playCount"
-                    className="block text-gray-300 mb-2"
+                    className="block text-gray-900 mb-2"
                   >
                     album tracks
                   </label>
@@ -458,7 +458,7 @@ function AlbumPage() {
                     name="tracks"
                     accept="audio/*"
                     multiple
-                    className="p-2 bg-gray-800 rounded"
+                    className="p-2 bg-gray-300 rounded"
                     onChange={handleFileChange}
                   />
                 </div>
@@ -466,14 +466,14 @@ function AlbumPage() {
                   <button
                     type="button"
                     onClick={() => setIsEditModalOpen(false)}
-                    className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-500"
+                    className="px-4 py-2 bg-gray-100 border-gray-400 border-2 border-solid text-black rounded hover:bg-gray-200"
                   >
                     Cancel
                   </button>
                   <button
                    type="submit"
                     onClick={handleUpdateAlbum}
-                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                    className="px-4 py-2 bg-blue-200 text-black rounded hover:bg-blue-300"
                   >
                     Save Changes
                   </button>
