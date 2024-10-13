@@ -185,7 +185,7 @@ function AlbumPage() {
       return;
     }
 
-    try {
+    // try {
       setUploadStatus("Updating...")
       // Step 1: Upload new album art to S3 if a new file is selected
       let albumArtUrl = selectedAlbum.albumArtUrl; // Keep existing URL if no new file is selected
@@ -207,7 +207,6 @@ function AlbumPage() {
       // Step 2: Upload new tracks to S3 if new files are selected
       let updatedTracks = selectedAlbum.tracks; // Keep existing tracks if no new files are selected
       if (files.tracks && files.tracks.length > 0) {
-        console.log("this dont work");
         
         const trackUrls = [];
         for (const track of files.tracks) {
@@ -267,11 +266,11 @@ function AlbumPage() {
       } else {
         throw new Error("Failed to update album");
       }
-    } catch (error) {
-      setUploadStatus("Failed to update album");
-      console.error("Error updating album:", error);
-      alert("Failed to update album");
-    }
+    // } catch (error) {
+    //   setUploadStatus("Failed to update album");
+    //   console.error("Error updating album:", error);
+    //   alert("Failed to update album");
+    // }
   };
 
   if (loading) {
