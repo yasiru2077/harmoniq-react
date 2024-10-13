@@ -29,11 +29,11 @@ function AlbumPage() {
   const [uploadStatus, setUploadStatus] = useState("");
   const [selectedFiles, setSelectedFiles] = useState({
     albumArt: null,
-    tracks: [],
+    tracks: []
   });
   const [filesToRemove, setFilesToRemove] = useState({
     albumArt: false,
-    tracks: [],
+    tracks: []
   });
 
   const [loading, setLoading] = useState(true);
@@ -50,36 +50,30 @@ function AlbumPage() {
   useEffect(() => {
     setSelectedFiles({
       albumArt: null,
-      tracks: [],
+      tracks: []
     });
     setFilesToRemove({
       albumArt: false,
-      tracks: [],
+      tracks: []
     });
   }, [albumDetails]);
 
   const handleFileSelection = (event, fileType) => {
     const files = event.target.files;
-    if (fileType === "albumArt") {
-      setSelectedFiles((prev) => ({ ...prev, albumArt: files[0] }));
-    } else if (fileType === "tracks") {
-      setSelectedFiles((prev) => ({
-        ...prev,
-        tracks: [...prev.tracks, ...files],
-      }));
+    if (fileType === 'albumArt') {
+      setSelectedFiles(prev => ({ ...prev, albumArt: files[0] }));
+    } else if (fileType === 'tracks') {
+      setSelectedFiles(prev => ({ ...prev, tracks: [...prev.tracks, ...files] }));
     }
     handleFileChange(event);
   };
 
   const handleRemoveFile = (fileType, index) => {
-    if (fileType === "albumArt") {
-      setFilesToRemove((prev) => ({ ...prev, albumArt: true }));
-      setSelectedFiles((prev) => ({ ...prev, albumArt: null }));
-    } else if (fileType === "tracks") {
-      setFilesToRemove((prev) => ({
-        ...prev,
-        tracks: [...prev.tracks, index],
-      }));
+    if (fileType === 'albumArt') {
+      setFilesToRemove(prev => ({ ...prev, albumArt: true }));
+      setSelectedFiles(prev => ({ ...prev, albumArt: null }));
+    } else if (fileType === 'tracks') {
+      setFilesToRemove(prev => ({ ...prev, tracks: [...prev.tracks, index] }));
     }
   };
 
@@ -128,23 +122,24 @@ function AlbumPage() {
     });
   };
 
-  const handleUpdateSelectedAlbum = () => {
-    // setIsEditing(true);
+  const handleUpdateSelectedAlbum =()=>{
+    // setIsEditing(true); 
     setIsEditModalOpen(true);
-  };
+  }
 
   const handleDeleteSelectedAlbum = (album) => {
+    
     setSelectedAlbum(album);
     if (album) {
       handleDeleteAlbum(album.albumId);
       setSelectedAlbum(null);
     }
-    // Clear the selected album after deletion
+       // Clear the selected album after deletion
   };
 
   const handleDeleteAlbum = async (albumId) => {
     console.log("hello");
-
+    
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this album?"
     );
@@ -165,6 +160,7 @@ function AlbumPage() {
   const handleAlbumClick = (album) => {
     setSelectedAlbum(album);
     setAlbumDetails(album);
+   
   };
 
   const handleInputChange = (event) => {
@@ -182,15 +178,15 @@ function AlbumPage() {
   };
 
   const handleUpdateAlbum = async (event) => {
-    event.preventDefault();
-
+    event.preventDefault()
+    
     if (!selectedAlbum) {
       alert("No album selected for update.");
       return;
     }
 
     try {
-      setUploadStatus("Updating...");
+      setUploadStatus("Updating...")
       // Step 1: Upload new album art to S3 if a new file is selected
       let albumArtUrl = selectedAlbum.albumArtUrl; // Keep existing URL if no new file is selected
       if (files.albumArt) {
@@ -211,6 +207,8 @@ function AlbumPage() {
       // Step 2: Upload new tracks to S3 if new files are selected
       let updatedTracks = selectedAlbum.tracks; // Keep existing tracks if no new files are selected
       if (files.tracks && files.tracks.length > 0) {
+        console.log("this dont work");
+        
         const trackUrls = [];
         for (const track of files.tracks) {
           const trackResponse = await axios.post(
@@ -254,18 +252,21 @@ function AlbumPage() {
       );
 
       // Check if response status indicates success
+      if (response.status === 200 || response.status === 204) {
+        setUploadStatus("Updated successfully!");
+        alert("Album updated successfully!");
+        setAlbums(
+          albums.map((album) =>
+            album.albumId === selectedAlbum.albumId ? updatedAlbum : album
+          )
+        ); // Update album list with updated album
 
-      setUploadStatus("Updated successfully!");
-      alert("Album updated successfully!");
-      setAlbums(
-        albums.map((album) =>
-          album.albumId === selectedAlbum.albumId ? updatedAlbum : album
-        )
-      ); // Update album list with updated album
-
-      // Refresh the page after successful update
-      // window.location.reload();
-      setIsEditModalOpen(false);
+        // Refresh the page after successful update
+        // window.location.reload();
+        setIsEditModalOpen(false); 
+      } else {
+        throw new Error("Failed to update album");
+      }
     } catch (error) {
       setUploadStatus("Failed to update album");
       console.error("Error updating album:", error);
@@ -297,9 +298,7 @@ function AlbumPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {filterAlbums().map((album) => (
             <div
-              onClick={() => {
-                handleAlbumClick(album);
-              }}
+              onClick={() => {handleAlbumClick(album)}}
               key={album.albumId}
               className="bg-gray-800 rounded-lg overflow-hidden shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-xl"
             >
@@ -310,11 +309,8 @@ function AlbumPage() {
                   className="w-full h-48 object-cover"
                 />
                 <div className="absolute top-2 right-2 flex space-x-2">
-                  <button
-                    onClick={handleUpdateSelectedAlbum}
-                    className="p-2 bg-blue-500 rounded-full hover:bg-blue-600 transition duration-200"
-                  >
-                    <PencilIcon className="w-4 h-4 text-white" />
+                  <button onClick={handleUpdateSelectedAlbum} className="p-2 bg-blue-500 rounded-full hover:bg-blue-600 transition duration-200">
+                    <PencilIcon  className="w-4 h-4 text-white" />
                   </button>
                   <button
                     // onClick={handleDeleteSelectedAlbum}
@@ -435,30 +431,22 @@ function AlbumPage() {
                     album image
                   </label>
                   {albumDetails.albumArtUrl && !filesToRemove.albumArt ? (
-                    <div className="flex items-center mb-2">
-                      <img
-                        src={albumDetails.albumArtUrl}
-                        alt="Album Art"
-                        className="w-16 h-16 object-cover mr-2"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveFile("albumArt")}
-                        className="text-red-500"
-                      >
-                        <X className="w-4 h-4" />
-                      </button>
-                    </div>
-                  ) : (
-                    <input
-                      type="file"
-                      name="albumArt"
-                      accept="image/*"
-                      className="p-2 bg-gray-800 rounded"
-                      onChange={handleFileChange}
-                      // value={albumDetails.albumArt}
-                    />
-                  )}
+                <div className="flex items-center mb-2">
+                  <img src={albumDetails.albumArtUrl} alt="Album Art" className="w-16 h-16 object-cover mr-2" />
+                <button type="button" onClick={() => handleRemoveFile('albumArt')} className="text-red-500">
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+               ) : (
+                <input
+                    type="file"
+                    name="albumArt"
+                    accept="image/*"
+                    className="p-2 bg-gray-800 rounded"
+                    onChange={handleFileChange}
+                    // value={albumDetails.albumArt}
+                  />
+                )}
                 </div>
                 <div className="mb-4">
                   <label
@@ -485,16 +473,16 @@ function AlbumPage() {
                     Cancel
                   </button>
                   <button
-                    type="submit"
+                   type="submit"
                     onClick={handleUpdateAlbum}
                     className="px-4 py-2 bg-blue-200 text-black rounded hover:bg-blue-300"
                   >
                     Save Changes
                   </button>
                 </div>
-                <h4 className="font-bold">
+                 <h4 className="font-bold">
                   {uploadStatus && <p>{uploadStatus}</p>}
-                </h4>
+                  </h4> 
               </form>
             </div>
           </div>
