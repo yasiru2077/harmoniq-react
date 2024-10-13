@@ -250,7 +250,7 @@ function AlbumPage() {
       );
 
       // Check if response status indicates success
-      if (response.status === 200 || response.status === 204) {
+      try {
         setUploadStatus("Updated successfully!");
         alert("Album updated successfully!");
         setAlbums(
@@ -262,7 +262,7 @@ function AlbumPage() {
         // Refresh the page after successful update
         // window.location.reload();
         setIsEditModalOpen(false); 
-      } else {
+      } catch {
         throw new Error("Failed to update album");
       }
     } catch (error) {
